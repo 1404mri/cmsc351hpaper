@@ -15,7 +15,7 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-A graph $G(V,E)$ is comprised of a set of nodes or vertices, $V$, and a set of edges, $E$, which represents all possible pairs of distinct vertices, $(u, v)$ in the graph. Specifically, a graph can either be directed or undirected. In a directed graph, each pair in $E$ has to be an ordered pair such that $(u,v)$ and $(v, u)$ are distinct edges. In an undirected graph, however, such pairs aren't considered distinct edges. A network, $G$, is a directed graph with each edge $(u, v) \in E$ having a nonnegative capacity $c(u, v) \geq 0 \forall (u, v) \in E$. A flow in $G$ is a real-valued function, $f: V \times V \rightarrow \mathbb{R}$. This function has to satisfy two conditions:
+A graph $G(V,E)$ is comprised of a set of nodes or vertices, $V$, and a set of edges, $E$, which represents all possible pairs of distinct vertices, $(u, v)$ in the graph. Specifically, a graph can either be directed or undirected. In a directed graph, each pair in $E$ has to be an ordered pair such that $(u,v)$ and $(v, u)$ are distinct edges. In an undirected graph, however, such pairs aren't considered distinct edges. A network, $G$, is a directed graph with each edge $(u, v) \in E$ having a nonnegative capacity $c(u, v) \geq 0 \forall (u, v) \in E$. These capacities should be integral or, if not, need to be scaled to integers. A flow in $G$ is a real-valued function, $f: V \times V \rightarrow \mathbb{R}$. This function has to satisfy two conditions:
 \begin{enumerate}
 \item $\leq f(u, v) \leq c(u,v)$  $\forall (u, v) \in E$ and $0 \leq f(u, v) \leq c(u,v)$  
 \item $\sum_{v \in V} f(v, u) = \sum_{v \in V} f(u, v)$ $\forall u, v \in V - {s, t}$
@@ -49,7 +49,26 @@ There are two main algorithms to solve the problem. The first algorithm is the F
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
-The total running time of this algorithm is $\mathcal{O}(E*m)$ where $m$ is the maximum flow. A more robust form of this algorithm is known as the Edmonds-Karp algorithm. This algorithm finds the $p$ path using breadth first search, which allows the algorithm to run in $\mathcal{O}(VE^2)$ running time.
+The algorithm makes use of a residual network, a network consisting of edges, each with a residual capacity based on a flow network, $G=(V, E)$. The residual capacity $c_f$, where f is the flow of the flow network and c is the capacity of the flow network, is defined as follows:\\ 
+\[
+c_f = \begin{cases}
+c(u, v) - f(u, v)\text{ if}  (u, v) \in E
+f(v, u) \text{ if} (v, u) \in E
+0
+\end{cases}
+\]
+Note that because we assume that both (u, v) and (v, u) can't be apart of E that both cases won't satisfy in this definition. 
+The total running time of this algorithm is $\mathcal{O}(E*m)$ where $m$ is the maximum flow. A more robust form of this algorithm is known as the Edmonds-Karp algorithm. This algorithm finds the $p$ path using breadth first search, which allows the algorithm to run in $\mathcal{O}(VE^2)$ running time. \\
+The problem that is of most relevance in this paper is the general version of the minimum cost flow problem. Unlike the previous two problems, this problem doesn't have a specific source or sink node. Instead, each node has a value $b(v)$. Nodes with positive values are called "supply nodes" while those with negative values are called "demand nodes". In addition, there's a cost function, $u$, associated with each edge in the graph and the following conditions must hold true: 
+\begin{enumerate}
+\item $f(v, w) \leq c(v, w) \forall(v, w) \in E$ 
+\item $\sum_{w \in V}{f(v, w)} - \sum_{w \in V}{f(w, v)} = b(v) \forall v \in V$
+\item $f(v, w) \geq 0 \forall(v, w) \in E$ 
+\item $\sum_{v}{b(v)} = 0$
+\end{enumerate}
+\begin{tcolorbox}
+Given two distinct vertices, $s, t$, in a flow network $G$, find  a cut $C$ in E such that the capacity, $c$, of the cut is minimized.  
+\end{tcolorbox}
 \section{Background}
 The topic explored in this paper is inspired by the real-world problem of time management experienced by most ordinary people including students, employees, etc. Usually, an individual has several tasks or assignments which they wish to complete by a certain time called a deadline, while attending to several events such as sleep, lunch, dinner, classes/professional meetings, social gatherings, etc. Since events are unavoidable with fixed starting times and ending times, the time an individual has to complete tasks and assignments is limited to the time unoccupied by events called "free time". There are two main aspects of this problem that are worth noting:
 \begin{itemize}
