@@ -9,7 +9,7 @@
 \definecolor {processblue}{cmyk}{0.96,0,0,0}
 \usepackage{tcolorbox}
 
-\title{Network Flow For Scheduling?}
+\title{Daily Task Management: An Application of the Minimum Cost Flow Problem}
 \author{Muhammad Islam}
 
 \begin{document}
@@ -129,6 +129,7 @@ There are also other restrictions that I will uphold:
 While the other restrictions stem directly from the problem, the last restriction simplifies the problem since there's a solution to the problem without the restriction if and only if there's a solution with the restriction. This can proved by contradiction: suppose that with the restriction, the problem doesn't have a solution. This implies that with the restriction, there isn't an equivalent $\frac{\sum_{1}^{i}{l_j}}{m}$ for all tasks $t_i \in T$ as that obtained without the restriction. However, this would mean that if $\sum_{j = i + 1}^{n}{w_{ij}} = 0$ or $\sum_{j = i + 1}^{n}{w_{ij}} = 0$, there isn't an equivalent $\sum_{1}^{i}{l_j} =  D_i + \sum_{j = i + 1}^{n}{w_{ij}} - \sum_{j = 1}^{i - 1}{w_{ji}}$, leading to a contradiction. As for the converse, the proof is trivial.
 
 \section{Solution}
+The graph in this situation can closely resemble a flow network.  
 Similar to a flow network, this graph seems to have a certain source and a sink - node 1 and node $n$. In addition, for a node, we want to maximize the amount of "flow" to the sink. However, unlike the maximum flow problem, we want to maximize the amount of flow across all nodes. In addition, there's no requirement that the outgoing flow must be equal to the incoming flow.
 
 \section{References}
